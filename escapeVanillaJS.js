@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 🪲 Bug: What's mssing from JS concepts?
         const reactConcepts = new Set(['components', 'jsx', 'hooks', 'async']);
         // 🪲 Bug: Incorrect function call
-        const commonConcepts = findIntersection(jsConcepts, reactConcepts);
+        const commonConcepts = findIntersection(reactConcepts,jsConcepts );
         document.getElementById("room2Result").textContent = `The code to unlock the door is: ${Array.from(commonConcepts).join(', ')}`;
     });
 
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 navigateLabyrinth(directions)
                     .then(message => {
                         // 🪲 Bug: Incorrect method
-                        document.getElementById("room3Result").textContent= message;
+                        document.getElementById("room3Result").innerContent= message;
                     });
             });
     });
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function findMostRecentBook(books) {
     // 🪲 Bug: Logic error
-    return books.reduce((mostRecent, book) => new Date(book.published) < new Date(mostRecent.published) ? book : mostRecent);
+    return books.reduce((mostRecent, book) => new Date(book.published) > new Date(mostRecent.published) ? book : mostRecent);
 }
 
 function findIntersection(setA,setB) {
@@ -53,7 +53,7 @@ function findIntersection(setA,setB) {
 async function navigateLabyrinth(directions) {
     for (let direction of directions) {
         // 🪲 Bug: No delay
-        new Promise((resolve)=> {
+        await new Promise((resolve)=> {
         setTimeout (()=> {console.log(`Navigating: ${direction.step}`)
         resolve();
         },2000);
