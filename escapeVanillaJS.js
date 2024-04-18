@@ -4,13 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch('books.json') 
             .then(response => response.json())
             .then(books => {
-                const mostRecentBook = mostRecentBook(books);
+                const mostRecentBook = findMostRecentBook(books);
                 // 🪲 Bug: Incorrect element ID
                 document.getElementById("room1Result").textContent = `The key to the next room is: ${mostRecentBook.title}`;
             });
     });
 
-    document.getElementById("solveRoom2").addEventListener("click", () => {
+    document.getElementById("solveRoom2Button").addEventListener("click", () => {
         const jsConcepts = new Set(['closure', 'scope', 'hoisting', 'async']);
         // 🪲 Bug: What's mssing from JS concepts?
         const reactConcepts = new Set(['components', 'jsx', 'hooks', 'async']);
@@ -20,14 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // 🪲 Bug: Asynchronous function ?
-    document.getElementById("solveRoom3").addEventListener("click", () => {
+    document.getElementById("solveRoom3Button").addEventListener("click", () => {
         fetch('directions.json') 
             .then(response => response.json())
             .then(directions => {
                 navigateLabyrinth(directions)
                     .then(message => {
                         // 🪲 Bug: Incorrect method
-                        document.getElementById("room3Result").innerHTML = message;
+                        document.getElementById("room3Result").textContent= message;
                     });
             });
     });
@@ -38,9 +38,15 @@ function findMostRecentBook(books) {
     return books.reduce((mostRecent, book) => new Date(book.published) < new Date(mostRecent.published) ? book : mostRecent);
 }
 
-function findIntersection(setA, _setB) {
+function findIntersection(setA,setB) {
    
-    const intersection = new Set([...setA]);
+    const intersection = new Set();
+    for(let elem of setA){
+    if (setB.has(elem)){
+        intersection.add(elem); 
+    }
+}
+
     return intersection;
 }
 
